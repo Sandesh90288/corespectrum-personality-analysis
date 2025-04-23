@@ -1,0 +1,97 @@
+/* General Reset and Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('../imgs/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+    color: #f0f6fc;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 5px;
+    position: relative;
+    z-index: 1; 
+}
+
+.box {
+    background: rgba(22, 27, 34, 0.9);
+    padding: 10px 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(56, 139, 253, 0.25), 0 0 40px rgba(56, 139, 253, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Header Styling */
+h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    color: #58a6ff;
+}
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #c9d1d9;
+}
+
+/* Form and Options */
+form label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    padding: 10px 12px;
+    background: #21262d;
+    border-radius: 10px;
+    color: #e6edf3;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border: 1px solid transparent;
+}
+
+form label:hover {
+    background: #30363d;
+    transform: scale(1.02);
+    border: 1px solid #58a6ff;
+}
+
+.options {
+    margin-right: 10px;
+    accent-color: #58a6ff;
+}
+
+/* Submit Button */
+.submit-button {
+    margin-top: 10px;
+    padding: 12px 30px;
+    font-size: 16px;
+    background-color: #238636;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(35, 134, 54, 0.4);
+}
+
+.submit-button:hover {
+    background-color: #2ea043;
+    transform: scale(1.03);
+}
+
+/* No more questions */
+p {
+    font-size: 18px;
+    color: #8b949e;
+    text-align: center;
+}

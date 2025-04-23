@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Insights</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Personality Insights</h1>
+            <p>Your strengths, challenges, and career guidance based on your choices.</p>
+        </header>
+
+        <section id="dominantColorDisplay">
+            Dominant Personality Color: <span id="dominantColorText">Calculating...</span>
+        </section>
+
+        <section class="chart-section">
+            <canvas id="barChart"></canvas>
+        </section>
+
+        <section class="analysis-container">
+            <div class="analysis-box">
+                <h2>🌟 Strengths</h2>
+                <ul id="strength"></ul>
+            </div>
+            <div class="analysis-box">
+                <h2>⚠️ Weaknesses</h2>
+                <ul id="weakness"></ul>
+            </div>
+            <div class="analysis-box">
+                <h2>💼 Career Suggestions</h2>
+                <ul id="career"></ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        window.onload = async function () {
+            const colorMixes = {
+                "blue+green": "Cyan",
+                "blue+red": "Purple",
+                "blue+yellow": "Teal",
+                "green+red": "Yellow-Green",
+                "green+yellow": "Lime",
+                "red+yellow": "Orange",
+                "blue+green+yellow": "Olive",
+                "blue+green+red": "Gray",
+                "blue+red+yellow": "Bronze",
+                "green+red+yellow": "Brown"
+            };
+
+            function getDominantColor(selectedAnswers) {
+                const answerToColor = { A: "red", B: "blue", C: "green", D: "yellow" };
+                let colorCounts = { red: 0, blue: 0, green: 0, yellow: 0 };
+                selectedAnswers.forEach(item => {
+                    if (answerToColor[item.answer]) {
+                        colorCounts[answerToColor[item.answer]]++;
+                    }
+                });
+
+                let maxCount = Math.max(...Object.values(colorCounts));
+                let activeColors = Object.keys(colorCounts).filter(color => colorCounts[color] === maxCount).sort();
+                if (activeColors.length === 1) return activeColors[0];
+                if (activeColors.length === 2) return colorMixes[activeColors.join("+")] || activeColors.join("+");
+                if (activeColors.length === 3) return colorMixes[activeColors.join("+")] || activeColors.join("+");
+                return activeColors[0];
+            }
+
+            const selectedAnswers = <%- JSON.stringify(selectedAnswers || []) %>;
+            const answerToColor = { A: "red", B: "blue", C: "green", D: "yellow" };
+            const colorRGB = {
+                red: [255, 0, 0],
+                blue: [0, 0, 255],
+                green: [0, 255, 0],
+                yellow: [255, 255, 0]
+            };
+
+            const dominantColor = getDominantColor(selectedAnswers);
+            document.getElementById('dominantColorText').innerText = dominantColor.toUpperCase();
+            document.getElementById('dominantColorText').style.color = dominantColor;
+
+            const colorCounts = { red: 0, blue: 0, green: 0, yellow: 0 };
+            selectedAnswers.forEach(item => {
+                const color = answerToColor[item.answer];
+                if (color) colorCounts[color]++;
+            });
+
+            const ctx = document.getElementById('barChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(colorCounts),
+                    datasets: [{
+                        label: 'Answer Distribution',
+                        data: Object.values(colorCounts),
+                        backgroundColor: Object.keys(colorCounts).map(c => `rgba(${colorRGB[c].join(',')}, 0.6)`),
+                        borderColor: Object.keys(colorCounts).map(c => `rgba(${colorRGB[c].join(',')}, 1)`),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            const answerValues = selectedAnswers.map(item => item.answer);
+            async function sendAnswers() {
+                try {
+                    const response = await fetch('/perso_test/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ answers: answerValues })
+                    });
+                    return await response.json();
+                } catch (error) {
+                    console.error("Error sending answers:", error);
+                    return null;
+                }
+            }
+
+            const result = await sendAnswers();
+            if (result && result.success) {
+                const { strengths, weaknesses, careerSuggestions } = result.data;
+
+                document.getElementById("strength").innerHTML = strengths
+                    .map(item => `<li>${item}</li>`)
+                    .join("");
+
+                document.getElementById("weakness").innerHTML = weaknesses
+                    .map(item => `<li><strong>${item.weakness}</strong><br><em>How you can improve it:</em> ${item.improvement}</li>`)
+                    .join("");
+
+                document.getElementById("career").innerHTML = careerSuggestions
+                    .map(item => `<li>${item}</li>`)
+                    .join("");
+            } else {
+                console.error("Error in response:", result);
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        p {
+            color: #666;
+        }
+
+        #dominantColorDisplay {
+            text-align: center;
+            font-size: 20px;
+            margin: 1.5rem 0;
+        }
+
+        .chart-section {
+            width: 100%;
+            height: 350px;
+            margin-bottom: 2rem;
+        }
+
+        .analysis-container {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .analysis-box {
+            flex: 1;
+            min-width: 250px;
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</body>
+
+</html>

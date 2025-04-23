@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>question<%= questionIndex %></title>
+    <link rel="stylesheet" href="/style/questions.css">
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+    <% if (question) { %>
+        <h1>Question:<%= questionIndex  %></h1>
+        <h3><%= question.question %></h3> <!-- Display the question -->
+    
+        <form action="/perso_test/welcomepage/startnew/usercreated/questions" method="post">
+            <% if (question.options && question.options.A) { %>
+                <label>
+                    <input type="radio" name="answer" value="A" required class="options"> <%= question.options.A.text %>
+                </label><br>
+            <% } %>
+    
+            <% if (question.options && question.options.B) { %>
+                <label>
+                    <input type="radio" name="answer" value="B" class="options"> <%= question.options.B.text %>
+                </label><br>
+            <% } %>
+    
+            <% if (question.options && question.options.C) { %>
+                <label>
+                    <input type="radio" name="answer" value="C" class="options"> <%= question.options.C.text %>
+                </label><br>
+            <% } %>
+    
+            <% if (question.options && question.options.D) { %>
+                <label>
+                    <input type="radio" name="answer" value="D" class="options"> <%= question.options.D.text %>
+                </label><br>
+            <% } %>
+            <button type="submit" class="submit-button">
+                <% if (questionIndex === totalquestions) { %>
+                    <%= "Submit" %>
+                <% } else { %>
+                    <%= "Next" %>
+                <% } %>
+            </button>
+        </form>
+    <% } else { %>
+        <p>No more questions available.</p>
+    <% } %>
+    </div>
+    </div>
+</body>
+</html>
