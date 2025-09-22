@@ -12,12 +12,12 @@ CoreSpectrum is a Node.js-based personality analysis application that provides u
 - Secure User Authentication – Implements JWT and bcrypt for safe login and data protection.
 
 ## Technologies Used
-Backend: Node.js, Express.js
-Database: MongoDB (Atlas)
-AI & APIs: Google Gemini API
-Frontend: HTML, CSS, JavaScript, Chart.js, EJS (templating engine)
-Cloud & Deployment: AWS EC2, S3 (file storage), IAM (Admin & User roles)
-Authentication & Security: JWT, bcrypt, cookies
+- Backend: Node.js, Express.js
+- Database: MongoDB (Atlas)
+- AI & APIs: Google Gemini API
+- Frontend: HTML, CSS, JavaScript, Chart.js, EJS (templating engine)
+- Cloud & Deployment: AWS EC2, S3 (file storage), IAM (Admin & User roles)
+- Authentication & Security: JWT, bcrypt, cookies
 
 ## Setup Instructions
 
