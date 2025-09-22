@@ -2,20 +2,29 @@
 
 CoreSpectrum is a Node.js-based personality analysis application that provides users with their strengths, weaknesses, career suggestions, and areas for improvement based on a quiz.
 
-## Features
-- Quiz with 10 personality-based questions
-- Analysis using Google Gemini API
-- Results based on color-coded personality types (Red, Blue, Green, Yellow)
-- Graphical representation of user traits
-- User authentication using JWT and bcrypt
+10-Question Personality Quiz – Quickly assess user personality through interactive questions.
+
+AI-Powered Analysis – Uses Google Gemini API to provide in-depth insights.
+
+Color-Coded Personality Types – Results categorized into Red, Blue, Green, and Yellow personality types.
+
+Strengths & Weaknesses – Detailed breakdown of users’ key strengths and areas for improvement.
+
+Career Suggestions – Personalized job/career recommendations based on personality traits.
+
+Improvement Guidance – Actionable tips to work on weaknesses and enhance personal growth.
+
+Graphical Representation – Visual charts and graphs to display user traits and quiz responses.
+
+Secure User Authentication – Implements JWT and bcrypt for safe login and data protection.
 
 ## Technologies Used
-- Node.js
-- Express.js
-- MongoDB & Mongoose
-- Google Gemini API
-- HTML, CSS, JavaScript
-- EJS (templating engine)
+Backend: Node.js, Express.js
+Database: MongoDB (Atlas)
+AI & APIs: Google Gemini API
+Frontend: HTML, CSS, JavaScript, Chart.js, EJS (templating engine)
+Cloud & Deployment: AWS EC2, S3 (file storage), IAM (Admin & User roles)
+Authentication & Security: JWT, bcrypt, cookies
 
 ## Setup Instructions
 
